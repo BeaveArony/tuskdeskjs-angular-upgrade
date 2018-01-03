@@ -1,4 +1,4 @@
-import { Model } from "./tuskdesk.interfaces";
+import { Model } from './tuskdesk.interfaces';
 
 export const modelInitialState: Model = {
   tickets: [],

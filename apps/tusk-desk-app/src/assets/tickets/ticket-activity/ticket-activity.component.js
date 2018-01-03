@@ -1,11 +1,9 @@
-'use strict';
+"use strict";
 
-angular
-  .module('tickets')
-  .component('ticketActivity', {
-    template: `
+angular.module("tickets").component("ticketActivity", {
+  template: `
       <a class="activity-link"
-        ng-click="$ctrl.toggleActivity()" 
+        ng-click="$ctrl.toggleActivity()"
         ng-class="{open: $ctrl.activityVisible}">
         Activity
       </a>
@@ -13,18 +11,24 @@ angular
         <p class="entry" ng-repeat="entry in $ctrl.ticketActivity">{{entry}}</p>
       </div>
     `,
-    bindings: {
-      tuskTicket: '<'
-    },
-    controller: ['ticketService', function(ticketService) {
+  bindings: {
+    tuskTicket: "<"
+  },
+  controller: [
+    "ticketService",
+    "store",
+    function(ticketService, store) {
       this.activityVisible = false;
 
-      this.$onChanges = function () {
+      this.tickets = store.select("model", "tickets");
+
+      this.$onChanges = function() {
         this.ticketActivity = ticketService.getActivity(this.tuskTicket.id);
       };
 
       this.toggleActivity = function() {
         this.activityVisible = !this.activityVisible;
       };
-    }]
-  });
+    }
+  ]
+});

@@ -3,7 +3,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import * as angular from 'angular';
 import 'angular-route';
-import { downgradeComponent, downgradeModule, setAngularLib } from '@angular/upgrade/static';
+import { downgradeComponent, downgradeModule, setAngularLib, downgradeInjectable } from '@angular/upgrade/static';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
@@ -23,6 +23,8 @@ import './assets/companies/company.service.js';
 import './assets/companies/team.service.js';
 import { AppComponent } from './app/app.component';
 import { TicketListComponent } from './app/tickets/ticket-list/ticket-list.component';
+import { Store } from '@ngrx/store';
+import { CompanyOverviewComponent } from 'apps/tusk-desk-app/src/app/companies/company-overview/company-overview.component';
 
 export function bootstrapAngular(extra: StaticProvider[]): any {
   setAngularLib(angular);
@@ -38,6 +40,9 @@ const downgraded = angular
   .module('downgraded', [downgradeModule(bootstrapAngular)])
   .directive('appRoot', downgradeComponent({ component: AppComponent, propagateDigest: false }));
 
+angular.module('companies').directive('companyOverview', downgradeComponent({ component: CompanyOverviewComponent }));
 angular.module('tickets').directive('ticketList', downgradeComponent({ component: TicketListComponent }));
+
+angular.module('tickets').service('store', downgradeInjectable(Store));
 
 angular.bootstrap(document, ['tusk-desk-app', downgraded.name]);

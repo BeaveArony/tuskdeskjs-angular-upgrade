@@ -5,8 +5,8 @@
 // export interface TuskdeskState {
 //   readonly tuskdesk: Tuskdesk;
 // }
-export type Severity = "low" | "high";
-export type Status = "unassigned" | "assigned" | "resolved";
+export type Severity = 'low' | 'high';
+export type Status = 'unassigned' | 'assigned' | 'resolved';
 
 export interface Ticket {
   readonly id: number;

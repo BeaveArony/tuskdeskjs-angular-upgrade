@@ -1,18 +1,18 @@
-import { ModelAction } from "./tuskdesk.actions";
-import { Model, Ticket } from "./tuskdesk.interfaces";
+import { ModelAction } from './tuskdesk.actions';
+import { Model, Ticket } from './tuskdesk.interfaces';
 
 export function modelReducer(state: Model, action: ModelAction): Model {
   switch (action.type) {
-    case "TICKETS_LOADED": {
+    case 'TICKETS_LOADED': {
       const tickets = action.payload.tickets;
       const users = { ...state.users, ...action.payload.users };
       return { ...state, tickets, users };
     }
-    case "TICKET_SUBMITTED": {
+    case 'TICKET_SUBMITTED': {
       const tickets = [...state.tickets, action.payload];
       return { ...state, tickets };
     }
-    case "TICKET_ASSIGNED": {
+    case 'TICKET_ASSIGNED': {
       return {
         ...state,
         tickets: updateItemInArray(
@@ -21,20 +21,19 @@ export function modelReducer(state: Model, action: ModelAction): Model {
           t =>
             <Ticket>{
               ...t,
-              status: "assigned",
+              status: 'assigned',
               assigneeId: action.payload.assigneeId
             }
         )
       };
     }
-    case "TICKET_RESOLVED": {
+    case 'TICKET_RESOLVED': {
       return {
         ...state,
         tickets: updateItemInArray(
           state.tickets,
           t => t.id === action.payload.ticketId,
-          t =>
-            <Ticket>{ ...t, status: "resolved", reason: action.payload.reason }
+          t => <Ticket>{ ...t, status: 'resolved', reason: action.payload.reason }
         )
       };
     }
@@ -44,11 +43,7 @@ export function modelReducer(state: Model, action: ModelAction): Model {
   }
 }
 
-function updateItemInArray<T>(
-  tt: T[],
-  predicate: (t: T) => boolean,
-  fn: (t: T) => T
-): T[] {
+function updateItemInArray<T>(tt: T[], predicate: (t: T) => boolean, fn: (t: T) => T): T[] {
   const matching = tt.filter(predicate)[0];
   if (matching) {
     const index = tt.indexOf(matching);
